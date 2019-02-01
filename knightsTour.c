@@ -27,11 +27,6 @@ void findPath(int **pond, int pondSize, point moveList[], int numMoves, int x, i
 void printPond(int **pond, int pondSize);
 validMoveSet *findValidMoves(point moveList[], int numMoves, int x, int y, int prevMove, int pondSize, int **pond);
 
-
-
-
-
-
 int main (int argc, char *argv[] ){
 
 	commandLineErrorCheck(argc, argv);//Error checking
@@ -53,9 +48,6 @@ int main (int argc, char *argv[] ){
 	//send in 1 to since first step, send in -1 since there was no prevMove
 	
 	printf("No Possible path");
-	
-	
-
 }
 
 /*	Find Path
@@ -80,26 +72,18 @@ void findPath(int **pond, int pondSize, point moveList[], int numMoves, int x, i
 	
 	validMoveSet *validMoves;
 
-	
 	if(i == pondSize*pondSize){
 		printPond(pond, pondSize);
-		exit(0);
-		
+		exit(0);		
 	}else{
-
-	
-	validMoves = findValidMoves(moveList, numMoves, x, y, prevMove, pondSize, pond);
+		validMoves = findValidMoves(moveList, numMoves, x, y, prevMove, pondSize, pond);
 		
-	for(j = 0; j < validMoves->numOfMoves; j++){
-		
-		findPath(pond, pondSize, moveList, numMoves, validMoves->moves[j].x, validMoves->moves[j].y, i+1, validMoves->moves[j].moveid);
+		for(j = 0; j < validMoves->numOfMoves; j++){
+			findPath(pond, pondSize, moveList, numMoves, validMoves->moves[j].x, validMoves->moves[j].y, i+1, validMoves->moves[j].moveid);
+		}
+		free(validMoves);
+		pond[x][y] = 0;
 	}
-	free(validMoves);
-	pond[x][y] = 0;
-	}
-	
-	
-
 }
 
 /*	find valid moves
@@ -130,27 +114,18 @@ validMoveSet *findValidMoves(point moveList[], int numMoves, int x, int y, int p
 	validMoves->numOfMoves = 0;
 	
 	for(i = 0; i < numMoves; i++){
-	
 		if(i != prevMove){
-		
 			if(x + moveList[i].x >= 0 && x + moveList[i].x < pondSize){
-			
 				if(y + moveList[i].y >= 0 && y + moveList[i].y < pondSize){
-					
 					if(pond[x + moveList[i].x][y + moveList[i].y] == 0){
-						
-						
 						validMoves->moves[validMoves->numOfMoves].x = x + moveList[i].x;
 						validMoves->moves[validMoves->numOfMoves].y = y + moveList[i].y;
 						validMoves->moves[validMoves->numOfMoves].moveid = moveList[i].moveid;
 						validMoves->numOfMoves++;
 					}
-				
 				}
 			}
-			
 		}
-	
 	}
 	
 	return validMoves;
